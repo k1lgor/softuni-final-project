@@ -9,6 +9,7 @@ class Recipe(models.Model):
     description = models.TextField(blank=False, null=False)
     ingredients = models.TextField(blank=False, null=False)
     instructions = models.TextField(blank=False, null=False)
+    cooking_time = models.PositiveIntegerField(default=0, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
