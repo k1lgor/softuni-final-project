@@ -22,7 +22,7 @@ jobs:
       - name: Check for Python file changes
         id: set-flag
         run: |
-          echo "FILES='${{ steps.files.outputs.added_modified }}'"
+          echo "FILES='${{ steps.files.outputs.modified }}'"
           if echo $FILES | grep -q '\.py'; then
             echo python_files_changed="true" >> $GITHUB_OUTPUT
           else
