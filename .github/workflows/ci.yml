@@ -11,18 +11,34 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get changed files
+        id: files
+        uses: Ana06/get-changed-files@v2.3.0
+
+      - name: Check for Python file changes
+        id: set-flag
+        run: |
+          echo "FILES='${{ steps.files.outputs.modified }}'"
+          if echo $FILES | grep -q '\.py'; then
+            echo python_files_changed="true" >> $GITHUB_OUTPUT
+          else
+            echo python_files_changed="false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Python
+        if: steps.set-flag.outputs.python_files_changed == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
       - name: Install dependencies
+        if: steps.set-flag.outputs.python_files_changed == 'true'
         run: pip install -r requirements.txt
 
       - name: Run tests
+        if: steps.set-flag.outputs.python_files_changed == 'true'
         run: python manage.py test -v 2
