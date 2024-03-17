@@ -17,7 +17,7 @@ jobs:
 
       - name: Get changed files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
 
       - name: Check for Python file changes
         id: set-flag
